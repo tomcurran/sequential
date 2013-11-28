@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Date;
-
 public class  MethodCall {
 	
 	public String MethodName;
@@ -10,8 +8,8 @@ public class  MethodCall {
 
 	public Object ExecutingObject;
 	
-	public Date CalledAt;
+	public long CalledAt;
 	
-	public Date CompletedAt;
+	public long CompletedAt;
 
 }
