@@ -2,7 +2,6 @@ package view;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 import model.Converter;
@@ -13,7 +12,7 @@ import net.sourceforge.plantuml.SourceStringReader;
 
 public class PlantUMLTest {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		String source = Converter.toPlantUML(TestData.get());
 				
 //				

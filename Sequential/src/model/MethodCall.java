@@ -17,6 +17,8 @@ public class  MethodCall {
 	
 	private long CompletedAt;
 	
+	private long Duration;
+	
 	private String MethodName;
 	
 	private Object CalledFrom;
@@ -46,6 +48,7 @@ public class  MethodCall {
 	public void Completed() {
 		StopId = MethodCall.getId();
 		CompletedAt = System.nanoTime();
+		Duration = CompletedAt-CalledAt;
 	}
 	
 	public int StartId(){
@@ -62,6 +65,10 @@ public class  MethodCall {
 	
 	public long CompletedAt(){
 		return CompletedAt;
+	}
+	
+	public long Duration(){
+		return Duration;
 	}
 	
 	public String MethodName(){
