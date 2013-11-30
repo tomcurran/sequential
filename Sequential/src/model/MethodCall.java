@@ -2,25 +2,80 @@ package model;
 
 public class  MethodCall {
 	
-	static int counter = 0;
+	private static int counter = 0;
 
-    public synchronized static int getId()
+	private synchronized static int getId()
     {
         return counter++;
     }
     
-	public int StartId;
+	private int StartId;
 	
-	public int StopId;
+	private int StopId;
 
-    public String MethodName;
+	private long CalledAt;
 	
-	public Object CalledFrom;
+	private long CompletedAt;
+	
+	private String MethodName;
+	
+	private Object CalledFrom;
 
-	public Object ExecutingObject;
+	private Object ExecutingObject;
 	
-	public long CalledAt;
 	
-	public long CompletedAt;
+	public MethodCall(String methodName, Object executingObject) {
+		Constructor(methodName, (Object)null, executingObject);
+	}
+
+	public MethodCall(String methodName, Object calledFrom, Object executingObject) {
+		Constructor(methodName, calledFrom, executingObject);
+	}
+	
+	private void Constructor(String methodName, Object calledFrom, Object executingObject) {		
+		MethodName = methodName;
+		CalledFrom = calledFrom;
+		ExecutingObject = executingObject;
+	}
+	
+	public void Started() {
+		StartId = MethodCall.getId();
+		CalledAt = System.nanoTime();
+	}
+	
+	public void Completed() {
+		StopId = MethodCall.getId();
+		CompletedAt = System.nanoTime();
+	}
+	
+	public int StartId(){
+		return StartId;
+	}
+	
+	public int StopId(){
+		return StopId;
+	}
+	
+	public long CalledAt(){
+		return CalledAt;
+	}
+	
+	public long CompletedAt(){
+		return CompletedAt;
+	}
+	
+	public String MethodName(){
+		return MethodName;
+	}
+	
+	public Object CalledFrom(){
+		return CalledFrom;
+	}
+	
+	public Object ExecutingObject(){
+		return ExecutingObject;
+	}
+	
+
 
 }

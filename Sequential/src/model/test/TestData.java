@@ -19,60 +19,17 @@ public class TestData {
 		test2.ClassName = "Class2";
 		test2.ObjectName = "Object2";
 		
-		MethodCall mc1 = new MethodCall();
-		mc1.StartId = MethodCall.getId();
-		mc1.MethodName = "testMethod()";
-		mc1.CalledFrom = null;
-		mc1.CalledAt = System.nanoTime();		
-		mc1.ExecutingObject = test1;
+		MethodCall mc1 = new MethodCall("testMethod()", test1);		
+		MethodCall mc2 = new MethodCall("testMethod2()", test1, test2);		
+		MethodCall mc3 = new MethodCall("testMethod3()", test2, test1);
 		
-		MethodCall mc2 = new MethodCall();
-		mc2.StartId = MethodCall.getId();
-		mc2.MethodName = "testMethod2()";
-		mc2.CalledFrom = test1;
-		mc2.CalledAt = System.nanoTime();
-		mc2.ExecutingObject = test2;
+		mc1.Started();
+		mc2.Started();				
+		mc3.Started();
 		
-		
-		MethodCall mc3 = new MethodCall();
-		mc3.StartId = MethodCall.getId();
-		mc3.MethodName = "testMetho3()";
-		mc3.CalledFrom = test2;
-		mc3.CalledAt = System.nanoTime();
-		mc3.ExecutingObject = test1;
-		
-		try {
-			Thread.sleep(1);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		mc3.CompletedAt = System.nanoTime();
-		mc3.StopId = MethodCall.getId();
-
-		
-		try {
-			Thread.sleep(1);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		mc2.CompletedAt = System.nanoTime();
-		mc2.StopId = MethodCall.getId();
-
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		mc1.CompletedAt = System.nanoTime();
-		mc1.StopId = MethodCall.getId();
-
-		
-
-		
+		mc3.Completed();	
+		mc2.Completed();				
+		mc1.Completed();
 
 		testData.add(mc1);
 		testData.add(mc2);
