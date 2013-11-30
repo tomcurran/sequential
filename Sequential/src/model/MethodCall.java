@@ -2,7 +2,18 @@ package model;
 
 public class  MethodCall {
 	
-	public String MethodName;
+	static int counter = 0;
+
+    public synchronized static int getId()
+    {
+        return counter++;
+    }
+    
+	public int StartId;
+	
+	public int StopId;
+
+    public String MethodName;
 	
 	public Object CalledFrom;
 

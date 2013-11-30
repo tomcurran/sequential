@@ -20,12 +20,14 @@ public class TestData {
 		test2.ObjectName = "Object2";
 		
 		MethodCall mc1 = new MethodCall();
+		mc1.StartId = MethodCall.getId();
 		mc1.MethodName = "testMethod()";
 		mc1.CalledFrom = null;
 		mc1.CalledAt = System.nanoTime();		
 		mc1.ExecutingObject = test1;
 		
 		MethodCall mc2 = new MethodCall();
+		mc2.StartId = MethodCall.getId();
 		mc2.MethodName = "testMethod2()";
 		mc2.CalledFrom = test1;
 		mc2.CalledAt = System.nanoTime();
@@ -33,6 +35,7 @@ public class TestData {
 		
 		
 		MethodCall mc3 = new MethodCall();
+		mc3.StartId = MethodCall.getId();
 		mc3.MethodName = "testMetho3()";
 		mc3.CalledFrom = test2;
 		mc3.CalledAt = System.nanoTime();
@@ -45,7 +48,8 @@ public class TestData {
 			e.printStackTrace();
 		}
 		mc3.CompletedAt = System.nanoTime();
-		
+		mc3.StopId = MethodCall.getId();
+
 		
 		try {
 			Thread.sleep(1);
@@ -54,7 +58,8 @@ public class TestData {
 			e.printStackTrace();
 		}
 		mc2.CompletedAt = System.nanoTime();
-		
+		mc2.StopId = MethodCall.getId();
+
 		try {
 			Thread.sleep(10);
 		} catch (InterruptedException e) {
@@ -63,6 +68,7 @@ public class TestData {
 		}
 		
 		mc1.CompletedAt = System.nanoTime();
+		mc1.StopId = MethodCall.getId();
 
 		
 
