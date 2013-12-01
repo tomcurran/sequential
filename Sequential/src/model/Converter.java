@@ -7,16 +7,16 @@ import java.util.TreeMap;
 
 public class Converter {
 	
-	private static String LIGHTBLUE = "LIGHTBLUE";
-	private static String LIGHTYELLOW = "LIGHTYELLOW";
-	private static String YELLOW = "YELLOW";
-	private static String LIGHTGREEN = "LIGHTGREEN";
-	private static String GREEN = "GREEN";
-	private static String DARKGREEN = "DARKGREEN";
-	private static String ORANGE = "ORANGE";
-	private static String RED = "RED";
-	private static String INDIGO = "INDIGO";
-	private static String BLUE = "BLUE";
+	private static String ten = "LIGHTBLUE";
+	private static String twenty = "LIGHTYELLOW";
+	private static String thirty = "YELLOW";
+	private static String forty = "YELLOWGREEN";
+	private static String fifty = "OLIVE";
+	private static String sixty = "DARKGREEN";
+	private static String seventy = "ORANGE";
+	private static String eighty = "RED";
+	private static String ninty = "INDIGO";
+	private static String oneHundred= "BLUE";
 	
 	public static String toPlantUML(List<MethodCall> methodsCalled) throws Exception {
 		
@@ -36,25 +36,25 @@ public class Converter {
 			double  timePercentage = (double)m.Duration()/totalDuration;
 						
 			if (timePercentage <= 0.1) {
-				colour = LIGHTBLUE;
+				colour = ten;
 			} else if (timePercentage <= 0.2) {
-				colour = LIGHTYELLOW;
+				colour = twenty;
 			} else if (timePercentage <= 0.3) {
-				colour = YELLOW;
+				colour = thirty;
 			} else if (timePercentage <= 0.4) {
-				colour = LIGHTGREEN;
+				colour = forty;
 			} else if (timePercentage <= 0.5) {
-				colour = GREEN;
+				colour = fifty;
 			} else if (timePercentage <= 0.6) {
-				colour = DARKGREEN;
+				colour = sixty;
 			} else if (timePercentage <= 0.7) {
-				colour = ORANGE;
+				colour = seventy;
 			} else if (timePercentage <= 0.8) {
-				colour = RED;
+				colour = eighty;
 			} else if (timePercentage <= 0.9) {
-				colour = INDIGO;
+				colour = ninty;
 			} else if (timePercentage <= 1) {
-				colour = BLUE;
+				colour = oneHundred;
 			} else {
 				throw new Exception("Invalid percentage"); 
 			}
@@ -68,17 +68,18 @@ public class Converter {
 			//timeline.put(m.StopId(), "||"+ length +"||\n"+ name +" --> "+ name2+": \ndeactivate "+ name +"\n");
 		}
 		
-		String colours = "<size:18><back:"+ LIGHTBLUE +"><color:"+ LIGHTBLUE + "><b><u>"+ LIGHTBLUE +"</u></b></color></back> 0-10%</size>\n";
-		colours += "<size:18><back:"+ LIGHTYELLOW +"><color:"+ LIGHTYELLOW + "><b><u>"+ LIGHTYELLOW +"</u></b></color></back> 11-20%</size>\n";
-		colours += "<size:18><back:"+ YELLOW +"><color:"+ YELLOW + "><b><u>"+ YELLOW +"</u></b></color></back> 21-30%</size>\n";
-		colours += "<size:18><back:"+ LIGHTGREEN +"><color:"+ LIGHTGREEN + "><b><u>"+ LIGHTGREEN +"</u></b></color></back> 31-40%</size>\n";
-		colours += "<size:18><back:"+ GREEN +"><color:"+ GREEN + "><b><u>"+ GREEN +"</u></b></color></back> 41-50%</size>\n";
-		colours += "<size:18><back:"+ DARKGREEN +"><color:"+ DARKGREEN + "><b><u>"+ DARKGREEN +"</u></b></color></back> 51-60%</size>\n";
-		colours += "<size:18><back:"+ ORANGE +"><color:"+ ORANGE + "><b><u>"+ ORANGE +"</u></b></color></back> 61-70%</size>\n";
-		colours += "<size:18><back:"+ RED +"><color:"+ RED + "><b><u>"+ RED +"</u></b></color></back> 71-80%</size>\n";
-		colours += "<size:18><back:"+ INDIGO +"><color:"+ INDIGO + "><b><u>"+ INDIGO +"</u></b></color></back> 81-90%</size>\n";
-		colours += "<size:18><back:"+ BLUE +"><color:"+ BLUE + "><b><u>"+ BLUE +"</u></b></color></back> 91-100%</size>\n";
-		String retString = "@startuml\nactor User\nlegend\nTime Exicuting\n"+ colours +"\nendlegend\n";
+		String colours = "<size:18><back:"+ ten +"><color:"+ ten + "><b><u>"+ ten +"</u></b></color></back> 0-10%</size>\n";
+		colours += "<size:18><back:"+ twenty +"><color:"+ twenty + "><b><u>"+ twenty +"</u></b></color></back> 11-20%</size>\n";
+		colours += "<size:18><back:"+ thirty +"><color:"+ thirty + "><b><u>"+ thirty +"</u></b></color></back> 21-30%</size>\n";
+		colours += "<size:18><back:"+ forty +"><color:"+ forty + "><b><u>"+ forty +"</u></b></color></back> 31-40%</size>\n";
+		colours += "<size:18><back:"+ fifty +"><color:"+ fifty + "><b><u>"+ fifty +"</u></b></color></back> 41-50%</size>\n";
+		colours += "<size:18><back:"+ sixty +"><color:"+ sixty + "><b><u>"+ sixty +"</u></b></color></back> 51-60%</size>\n";
+		colours += "<size:18><back:"+ seventy +"><color:"+ seventy + "><b><u>"+ seventy +"</u></b></color></back> 61-70%</size>\n";
+		colours += "<size:18><back:"+ eighty +"><color:"+ eighty + "><b><u>"+ eighty +"</u></b></color></back> 71-80%</size>\n";
+		colours += "<size:18><back:"+ ninty +"><color:"+ ninty + "><b><u>"+ ninty +"</u></b></color></back> 81-90%</size>\n";
+		colours += "<size:18><back:"+ oneHundred +"><color:"+ oneHundred + "><b><u>"+ oneHundred +"</u></b></color></back> 91-100%</size>\n";
+		
+		String retString = "@startuml\nactor User\nlegend\n<size:24><b>Time Exicuting</b></size>\n"+ colours +"\nendlegend\n";
 
 		for(String val: timeline.values()) {
 			retString += val;
