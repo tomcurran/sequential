@@ -23,7 +23,7 @@ public class Converter {
 	private static final String TEMPLATE_METHOD_END = "%2$s --> %1$s: \ndeactivate %2$s\n";
 //	private static final String TEMPLATE_METHOD_END_LENGTH = "||$3$s||\n" + TEMPLATE_METHOD_END;
 	private static final String TEMPLATE_LEGEND = "legend\n<size:24><b>Time Executing</b></size>\n%s\nendlegend\n";
-	private static final String TEMPLATE_TIME = "<size:18>%2$s%% <back:%1$s><color:%1$s><b><u>%1$s</u></b></color></back></size>\n";
+	private static final String TEMPLATE_TIME = "<size:18>%2$s%% <back:%1$s><color:%1$s><b>################</b></color></back></size>\n";
 
 	public static String toPlantUML(List<MethodCall> methodsCalled) throws Exception {
 
