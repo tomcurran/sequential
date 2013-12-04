@@ -18,7 +18,7 @@ public class Converter {
 	private static final String PERCENTAGE_100 = "Blue";
 
 	private static final String TEMPLATE_UML = "@startuml\nactor User\n%s%s@enduml\n";
-	private static final String TEMPLATE_OBJECT = "%s.%s";
+	private static final String TEMPLATE_OBJECT = "%s";
 	private static final String TEMPLATE_METHOD_START = "%1$s -> %2$s: %3$s()\nactivate %2$s #%4$s\n";
 	private static final String TEMPLATE_METHOD_END = "%2$s --> %1$s: \ndeactivate %2$s\n";
 //	private static final String TEMPLATE_METHOD_END_LENGTH = "||$3$s||\n" + TEMPLATE_METHOD_END;
@@ -35,9 +35,8 @@ public class Converter {
 		}
 
 		for (MethodCall m : methodsCalled) {
-			String name = String.format(TEMPLATE_OBJECT, m.getObject().getObjectName(), m.getObject().getClassName());
-			String name2 = m.getInvokingObject() != null ? String.format(TEMPLATE_OBJECT, m.getInvokingObject().getObjectName(), m.getInvokingObject().getClassName()) : "User";
-//			String length = String.valueOf((m.completedAt() - m.calledAt())/100000);
+			String name = String.format(TEMPLATE_OBJECT, m.getExicutingClass());
+			String name2 = m.getInvokingClass() != null ? String.format(TEMPLATE_OBJECT, m.getInvokingClass()) : "User";
 			String colour;
 			double timePercentage = (double) m.getDuration() / totalDuration;
 
@@ -67,7 +66,6 @@ public class Converter {
 
 			timeline.put(m.getStartId(), String.format(TEMPLATE_METHOD_START, name2, name, m.getMethodName(), colour));
 			timeline.put(m.getEndId(), String.format(TEMPLATE_METHOD_END, name2, name));
-//			timeline.put(m.stopId(), String.format(TEMPLATE_METHOD_END_LENGTH, name2, name, length));
 		}
 
 		String colours = "";

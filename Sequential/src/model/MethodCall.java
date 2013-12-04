@@ -14,17 +14,17 @@ public class MethodCall {
 	private long endTime;
 	private long duration;
 	private String methodName;
-	private SeqObject invokingObject;
-	private SeqObject object;
+	private String invokingClass;
+	private String exicutingClass;
 
-	public MethodCall(String methodName, SeqObject methodObject) {
-		this(methodName, null, methodObject);
+	public MethodCall(String methodName, String exicutingClass) {
+		this(methodName, null, exicutingClass);
 	}
 
-	public MethodCall(String methodName, SeqObject invokingObject, SeqObject methodObject) {
+	public MethodCall(String methodName, String invokingClass, String exicutingClass) {
 		this.methodName = methodName;
-		this.invokingObject = invokingObject;
-		this.object = methodObject;
+		this.invokingClass = invokingClass;
+		this.exicutingClass = exicutingClass;
 		this.startId = -1;
 		this.endId = -1;
 		this.startTime = -1;
@@ -67,12 +67,12 @@ public class MethodCall {
 		return this.methodName;
 	}
 
-	public SeqObject getInvokingObject() {
-		return this.invokingObject;
+	public String getInvokingClass() {
+		return this.invokingClass;
 	}
 
-	public SeqObject getObject() {
-		return this.object;
+	public String getExicutingClass() {
+		return this.exicutingClass;
 	}
 
 }
