@@ -1,5 +1,7 @@
 package model.test;
 
+import model.Timer;
+
 public class TestClassAdapted {
 
 	private String testField;
@@ -9,23 +11,23 @@ public class TestClassAdapted {
 	}
 
 	public void testMethod1() {
-		System.err.printf("%s.%s>%d\n", "TestClass", "testMethod1", System.nanoTime());
+		Timer.start("TestClass", "testMethod1");
 
 		// actual method start
 		System.out.println("testMethod1 excuting...");
 		// actual method end
 
-		System.err.printf("%s.%s<%d\n", "TestClass", "testMethod1", System.nanoTime());
+		Timer.end("TestClass", "testMethod1");
 	}
 
 	public void testMethod2() {
-		System.err.printf("%s.%s>%d\n", "TestClass", "testMethod2", System.nanoTime());
+		Timer.start("TestClass", "testMethod2");
 
 		// actual method start
 		System.out.println("testMethod2 excuting..." + this.testField);
 		// actual method end
 
-		System.err.printf("%s.%s<%d\n", "TestClass", "testMethod2", System.nanoTime());
+		Timer.end("TestClass", "testMethod2");
 	}
 
 	public static void main(String[] args) {
