@@ -4,15 +4,15 @@ public class MethodCall {
 
 	private static int counter = 0;
 
-	private synchronized static int getId() {
-		return counter++;
+	protected synchronized static int getId() {
+		return ++counter;
 	}
 
-	private int startId;
-	private int endId;
-	private long startTime;
-	private long endTime;
-	private long duration;
+	protected int startId;
+	protected int endId;
+	protected long startTime;
+	protected long endTime;
+	protected long duration;
 	private String methodName;
 	private String invokingClass;
 	private String exicutingClass;
@@ -29,18 +29,22 @@ public class MethodCall {
 		this.endId = -1;
 		this.startTime = -1;
 		this.endTime = -1;
-		this.duration = -1;
+		this.duration = 0;
 	}
 
 	public void start() {
-		this.startId = MethodCall.getId();
-		this.startTime = System.nanoTime();
+		if (this.startId < 0) {
+				this.startId = MethodCall.getId();
+				this.startTime = System.nanoTime();
+		}
 	}
 
 	public void end() {
-		this.endId = MethodCall.getId();
-		this.endTime = System.nanoTime();
-		this.duration = this.endTime - this.startTime;
+		if (this.startId > 0 && this.endId < 0) {
+			this.endId = MethodCall.getId();
+			this.endTime = System.nanoTime();
+			this.duration = this.endTime - this.startTime;
+		}
 	}
 
 	public int getStartId() {

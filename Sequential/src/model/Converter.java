@@ -1,31 +1,37 @@
 package model;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class Converter {
-
-	private static final String PERCENTAGE_10 = "LightBlue";
-	private static final String PERCENTAGE_20 = "LightYellow";
-	private static final String PERCENTAGE_30 = "Yellow";
-	private static final String PERCENTAGE_40 = "YellowGreen";
-	private static final String PERCENTAGE_50 = "Olive";
-	private static final String PERCENTAGE_60 = "DarkGreen";
-	private static final String PERCENTAGE_70 = "Orange";
-	private static final String PERCENTAGE_80 = "Red";
-	private static final String PERCENTAGE_90 = "Indigo";
-	private static final String PERCENTAGE_100 = "Blue";
-
-	private static final String TEMPLATE_UML = "@startuml\nactor User\n%s%s@enduml\n";
-	private static final String TEMPLATE_OBJECT = "%s";
-	private static final String TEMPLATE_METHOD_START = "%1$s -> %2$s: %3$s()\nactivate %2$s #%4$s\n";
-	private static final String TEMPLATE_METHOD_END = "%2$s --> %1$s: \ndeactivate %2$s\n";
-//	private static final String TEMPLATE_METHOD_END_LENGTH = "||$3$s||\n" + TEMPLATE_METHOD_END;
-	private static final String TEMPLATE_LEGEND = "legend\n<size:24><b>Time Executing</b></size>\n%s\nendlegend\n";
-	private static final String TEMPLATE_TIME = "<size:18>%2$s%% <back:%1$s><color:%1$s><b>################</b></color></back></size>\n";
+public class Converter {	
 
 	public static String toPlantUML(List<MethodCall> methodsCalled) throws Exception {
+		
+		final String PERCENTAGE_10 = "LightBlue";
+		final String PERCENTAGE_20 = "LightYellow";
+		final String PERCENTAGE_30 = "Yellow";
+		final String PERCENTAGE_40 = "YellowGreen";
+		final String PERCENTAGE_60 = "DarkGreen";
+		final String PERCENTAGE_50 = "Olive";
+		final String PERCENTAGE_70 = "Orange";
+		final String PERCENTAGE_80 = "Red";
+		final String PERCENTAGE_90 = "Indigo";
+		final String PERCENTAGE_100 = "Blue";
+
+		final String TEMPLATE_UML = "@startuml\nactor User\n%s%s@enduml\n";
+		final String TEMPLATE_OBJECT = "%s";
+		final String TEMPLATE_METHOD_START = "%1$s -> %2$s: %3$s()\nactivate %2$s #%4$s\n";
+		final String TEMPLATE_METHOD_END = "%2$s --> %1$s: \ndeactivate %2$s\n";
+//		private static final String TEMPLATE_METHOD_END_LENGTH = "||$3$s||\n" + TEMPLATE_METHOD_END;
+		final String TEMPLATE_LEGEND = "legend\n<size:24><b>Time Executing</b></size>\n%s\nendlegend\n";
+		final String TEMPLATE_TIME = "<size:18>%2$s%% <back:%1$s><color:%1$s><b>################</b></color></back></size>\n";
 
 		SortedMap<Integer, String> timeline = new TreeMap<Integer, String>();
 
@@ -90,4 +96,51 @@ public class Converter {
 		return String.format(TEMPLATE_UML, methods, legend);
 	}
 
+    public static List<MethodCall> ParseFile(String inputFileName) throws IOException {
+    	Path inputFile = Paths.get(inputFileName);
+    	List<String> rawCalls = Files.readAllLines(inputFile, StandardCharsets.UTF_8);
+    	List<MethodCall> methodCalls = new ArrayList<MethodCall>();
+    	
+    	for(String rawCall: rawCalls) {
+    		//TestClass,testMethod1,>,1386174847530
+    		String[] callData = rawCall.split(",");
+    		
+    		switch (callData[2])
+    		{
+	    		case ">" :
+	    		{
+	    			String calledFrom = null;
+	    			for(int i = methodCalls.size()-1; i >= 0; i--) {
+	    				MethodCall j = methodCalls.get(i);
+	    				if (j.endId < 0) {
+	    					calledFrom = j.getExicutingClass();
+	    					break;
+	    				}
+	    			}
+	    			
+	    			MethodCall newCall  = new MethodCall(callData[1], calledFrom, callData[0]);
+	    			newCall.startId = MethodCall.getId();
+	    			newCall.startTime = Long.parseLong(callData[3]);
+	        		methodCalls.add(newCall);
+	    			break;
+	    		}
+	    		case "<" :
+	    		{
+	    			for(int i = methodCalls.size()-1; i >= 0; i--) {
+	    				MethodCall j = methodCalls.get(i);
+	    				if (j.endId < 0 && j.getMethodName().equals(callData[1]) && j.getExicutingClass().endsWith(callData[0])) {
+	    					j.endId = MethodCall.getId();
+	    					j.endTime = Long.parseLong(callData[3]);
+	    					j.duration = j.endTime - j.startTime;
+	    					break;
+	    				}
+	    			}
+	    			break;
+	    		}
+    		}		
+    		
+    	}
+    	
+		return methodCalls;
+	}
 }
