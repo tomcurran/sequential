@@ -20,8 +20,8 @@ public class PlantUMLTest {
 		
 		final String fileName = args[0] + ".svg";	
 		final String folder = "output";
-		
-		String source = Converter.toPlantUML(TestData.get());
+				
+		String source = Converter.toPlantUML(Converter.ParseFile("input"+File.separator+"test.txt"));
 				
 		SourceStringReader reader = new SourceStringReader(source);
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
