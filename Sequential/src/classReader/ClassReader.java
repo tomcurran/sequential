@@ -97,7 +97,7 @@ public class ClassReader {
 		    	String name = line.next();
 		    	if (name.equals("Main-Class")) {
 			    	String value = line.next();
-		    		return value;
+		    		return value.trim();
 		    	}
 		    }
 		}

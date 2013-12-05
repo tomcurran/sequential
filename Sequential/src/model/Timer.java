@@ -21,22 +21,15 @@ public class Timer {
 		calls.add(String.format(Timer.METHOD_END, className, methodName, System.nanoTime()));
 	}
 
-	public static void saveToFile() {
+	public static void saveToFile(String filename) throws FileNotFoundException {
 		String output = "";
 		for (String c : Timer.calls) {
 			output += c;
 		}
 		PrintStream out = null;
-		try {
-		    out = new PrintStream(new FileOutputStream("input/test.txt"));
-		    out.print(output);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally {
+		    out = new PrintStream(new FileOutputStream(filename));
+		    out.print(output);	
 		    if (out != null) out.close();
-		}
 	}
 
 }

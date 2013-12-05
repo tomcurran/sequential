@@ -1,11 +1,9 @@
+package model;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
-
-import model.AddTimerAdapter;
-import model.Timer;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -52,16 +50,14 @@ public class Loader extends ClassLoader {
 		return defineClass(name, b, 0, b.length);
 	}
 
-	public static void main(final String args[]) throws Exception {
+	public static void RunAnalysis(final String className, final String outputFile, final String applicationArgs[]) throws Exception {
 		// loads the application class (in args[0]) with an Adapt class loader
 		ClassLoader loader = new Loader();
-		Class<?> c = loader.loadClass(args[0]);
+		Class<?> c = loader.loadClass(className);
 		// calls the 'main' static method of this class with the
 		// application arguments (in args[1] ... args[n]) as parameter
 		Method m = c.getMethod("main", new Class<?>[] { String[].class });
-		String[] applicationArgs = new String[args.length - 1];
-		System.arraycopy(args, 1, applicationArgs, 0, applicationArgs.length);
 		m.invoke(null, new Object[] { applicationArgs });
-		Timer.saveToFile();
+		Timer.saveToFile(outputFile);
 	}
 }
