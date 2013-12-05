@@ -15,7 +15,7 @@ public class Loader extends ClassLoader {
 
 	@Override
 	protected Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
-		if (name.startsWith("java.") || name.equals("model.Timer")) {
+		if (name.startsWith("java.") || name.startsWith("javax.") || name.equals("model.Timer")) {
 			return super.loadClass(name, resolve);
 		}
 

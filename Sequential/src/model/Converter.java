@@ -106,6 +106,7 @@ public class Converter {
     	for(String rawCall: rawCalls) {
     		//TestClass,testMethod1,>,1386174847530
     		String[] callData = rawCall.split(",");
+    		String className = callData[0].replace('/', '.');
     		
     		switch (callData[2])
     		{
@@ -120,7 +121,7 @@ public class Converter {
 	    				}
 	    			}
 	    			
-	    			MethodCall newCall  = new MethodCall(callData[1], calledFrom, callData[0]);
+	    			MethodCall newCall  = new MethodCall(callData[1], calledFrom, className);
 	    			newCall.startId = MethodCall.getId();
 	    			newCall.startTime = Long.parseLong(callData[3]);
 	        		methodCalls.add(newCall);
@@ -130,7 +131,7 @@ public class Converter {
 	    		{
 	    			for(int i = methodCalls.size()-1; i >= 0; i--) {
 	    				MethodCall j = methodCalls.get(i);
-	    				if (j.endId < 0 && j.getMethodName().equals(callData[1]) && j.getExicutingClass().endsWith(callData[0])) {
+	    				if (j.endId < 0 && j.getMethodName().equals(callData[1]) && j.getExicutingClass().endsWith(className)) {
 	    					j.endId = MethodCall.getId();
 	    					j.endTime = Long.parseLong(callData[3]);
 	    					j.duration = j.endTime - j.startTime;
