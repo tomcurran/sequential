@@ -3,38 +3,34 @@ package view;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.List;
 
 import model.Converter;
+import model.MethodCall;
 import model.test.TestData;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
 
 public class PlantUMLTest {
-
-	public static void main(String[] args) throws Exception {
-		if (args.length == 0) {
-			System.out.println("Missing arguments, please provide output file name");
-			return;
-		}
-		
-		final String fileName = args[0] + ".svg";	
-		final String folder = "output";
+	
+	public static void WriteSVG(String input, String output) throws Exception {
+			
+		List<MethodCall> methodCalls = Converter.ParseFile(input);
+		String data = Converter.toPlantUML(methodCalls);
 				
-		String source = Converter.toPlantUML(Converter.ParseFile("input"+File.separator+"test.txt"));
-				
-		SourceStringReader reader = new SourceStringReader(source);
+		SourceStringReader reader = new SourceStringReader(data);
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
 		reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
 		os.close();
 
 		final String svg = new String(os.toByteArray());
-
-		File outputFile = new File(folder);
-		outputFile.mkdirs();
-		PrintWriter writer = new PrintWriter(folder + File.separator + fileName, "UTF-8");
+		
+		File outputFile = new File(output);
+		outputFile.getParentFile().mkdirs();
+		
+		PrintWriter writer = new PrintWriter(outputFile.getPath(), "UTF-8");
 		writer.println(svg);
 		writer.close();
 	}
-
 }

@@ -13,42 +13,12 @@ import java.util.regex.PatternSyntaxException;
 
 public class ClassReader {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-	if (args.length == 0) {
-		System.out.println("Missing directory or jar");
+	public static String GetMainClassName(String dir) throws Exception {
+		File manifest = ScanDir(dir);
+		return MainClassPath(manifest);
 	}
 	
-	String path = args[0];
-	
-	if (path.endsWith(".jar")) {
-		File outputfolder = new File("temp");
-		outputfolder.mkdirs();
-		
-		try {
-			UnpackJar(path, outputfolder.getPath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		path = outputfolder.getPath();
-	}
-	
-	try {
-		File manifest = ScanDir(path);
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	
-	
-	
-	
-	}
-	
-	private static void UnpackJar(String jarFile, String destDir) throws IOException {
+	public static void UnpackJar(String jarFile, String destDir) throws IOException {
 		JarFile jar = new JarFile(jarFile);
 		Enumeration<JarEntry> es = jar.entries();
 		while (es.hasMoreElements()) {
@@ -60,6 +30,7 @@ public class ClassReader {
 		    	outFile.getParentFile().mkdirs();
 		    	outFile = new java.io.File(destDir, file.getName());
 	        }
+		    
 	        if(file.isDirectory())
 	        {
 	            continue;
@@ -67,9 +38,11 @@ public class ClassReader {
 	    	
 		    java.io.InputStream is = jar.getInputStream(file); // get the input stream
 		    java.io.FileOutputStream fos = new java.io.FileOutputStream(outFile);
+		    
 		    while (is.available() > 0) {  // write contents of 'is' to 'fos'
 		    	fos.write(is.read());
 		    }
+		    
 		    fos.close();
 		    is.close();
 		}
@@ -99,7 +72,7 @@ public class ClassReader {
 			
 			@Override
 			public boolean accept(File dir, String name) {
-				return name.equals("META-INA") || name.equals("MANIFEST.MF");
+				return name.equals("META-INF") || name.equals("MANIFEST.MF");
 			}
 		});
 		
@@ -115,22 +88,20 @@ public class ClassReader {
 		}
 
 	
-	private static File LocateMainClass(File manifest) {
-		Scanner scanner =  new Scanner(manifest.getPath());
+	private static String MainClassPath(File manifest) throws Exception {
+		Scanner scanner =  new Scanner(manifest);
 		while (scanner.hasNextLine()) {
-			
-			Scanner line = new Scanner(scanner.nextLine());
-			line.useDelimiter(":");
+			String l = scanner.nextLine();
+			Scanner line = new Scanner(l).useDelimiter(":");
 		    if (line.hasNext()) {
-		    	if (!line.next().equals("Main-Class")) {
-		    		continue;
+		    	String name = line.next();
+		    	if (name.equals("Main-Class")) {
+			    	String value = line.next();
+		    		return value;
 		    	}
 		    }
-		      String name = ;
-		      String value = line.next();
 		}
 		
-		return null;
-		
+		throw new Exception("No Main-Class defined in manifest.mf");
 	}
 }
