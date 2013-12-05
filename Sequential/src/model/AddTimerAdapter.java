@@ -1,9 +1,5 @@
 package model;
 
-import static org.objectweb.asm.Opcodes.ACC_INTERFACE;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_STATIC;
-
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -23,7 +19,7 @@ public class AddTimerAdapter extends ClassVisitor {
 	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
 		cv.visit(version, access, name, signature, superName, interfaces);
 		owner = name;
-		isInterface = (access & ACC_INTERFACE) != 0;
+		isInterface = (access & Opcodes.ACC_INTERFACE) != 0;
 	}
 
 	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
@@ -36,7 +32,7 @@ public class AddTimerAdapter extends ClassVisitor {
 
 	public void visitEnd() {
 		if (!isInterface) {
-			FieldVisitor fv = cv.visitField(ACC_PUBLIC + ACC_STATIC, "timer", "J", null, null);
+			FieldVisitor fv = cv.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "timer", "J", null, null);
 			if (fv != null) {
 				fv.visitEnd();
 			}
@@ -49,7 +45,7 @@ public class AddTimerAdapter extends ClassVisitor {
 		private String methodName;
 
 		public AddTimerMethodAdapter2(int access, String name, String desc, MethodVisitor mv) {
-			super(ASM4, mv, access, name, desc);
+			super(Opcodes.ASM5, mv, access, name, desc);
 			this.methodName = name;
 		}
 
