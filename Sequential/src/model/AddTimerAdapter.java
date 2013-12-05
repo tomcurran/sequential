@@ -25,7 +25,7 @@ public class AddTimerAdapter extends ClassVisitor {
 	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
 		MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
 		if (!isInterface && mv != null && !name.equals("<init>")) {
-			mv = new AddTimerMethodAdapter2(access, name, desc, mv);
+			mv = new AddTimerMethodAdapter(access, name, desc, mv);
 		}
 		return mv;
 	}
@@ -40,11 +40,11 @@ public class AddTimerAdapter extends ClassVisitor {
 		}
 	}
 
-	class AddTimerMethodAdapter2 extends AdviceAdapter {
+	class AddTimerMethodAdapter extends AdviceAdapter {
 
 		private String methodName;
 
-		public AddTimerMethodAdapter2(int access, String name, String desc, MethodVisitor mv) {
+		public AddTimerMethodAdapter(int access, String name, String desc, MethodVisitor mv) {
 			super(Opcodes.ASM5, mv, access, name, desc);
 			this.methodName = name;
 		}
