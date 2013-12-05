@@ -1,4 +1,4 @@
-package asm.otherthings;
+package asm.asmifier;
 
 import asm.Timer;
 

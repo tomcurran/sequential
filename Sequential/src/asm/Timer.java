@@ -22,14 +22,15 @@ public class Timer {
 	}
 
 	public static void saveToFile(String filename) throws FileNotFoundException {
-		String output = "";
+		String calls = "";
 		for (String c : Timer.calls) {
-			output += c;
+			calls += c;
 		}
 		PrintStream out = null;
-		    out = new PrintStream(new FileOutputStream(filename));
-		    out.print(output);	
-		    if (out != null) out.close();
+		out = new PrintStream(new FileOutputStream(filename));
+		out.print(calls);
+		if (out != null)
+			out.close();
 	}
 
 }

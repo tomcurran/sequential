@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class Converter {	
+public class Converter {
 
 	public static String toPlantUML(List<MethodCall> methodsCalled) throws Exception {
-		
+
 		final String PERCENTAGE_10 = "LightBlue";
 		final String PERCENTAGE_20 = "LightYellow";
 		final String PERCENTAGE_30 = "Yellow";
@@ -29,7 +29,6 @@ public class Converter {
 		final String TEMPLATE_OBJECT = "%s";
 		final String TEMPLATE_METHOD_START = "%1$s -> %2$s: %3$s()\nactivate %2$s #%4$s\n";
 		final String TEMPLATE_METHOD_END = "%2$s --> %1$s: %3$ss \ndeactivate %2$s\n";
-//		private static final String TEMPLATE_METHOD_END_LENGTH = "||$3$s||\n" + TEMPLATE_METHOD_END;
 		final String TEMPLATE_LEGEND = "legend\n<size:24><b>Time Executing</b></size>\n%s\nendlegend\n";
 		final String TEMPLATE_TIME = "<size:18>%2$s%% <back:%1$s><color:%1$s><b>################</b></color></back></size>\n";
 
@@ -45,7 +44,7 @@ public class Converter {
 			String name2 = m.getInvokingClass() != null ? String.format(TEMPLATE_OBJECT, m.getInvokingClass()) : "User";
 			String colour;
 			long duration = m.getDuration();
-			double durationSeconds = (double)duration / 1000000000.0;
+			double durationSeconds = (double) duration / 1000000000.0;
 			double timePercentage = (double) duration / totalDuration;
 
 			if (timePercentage <= 0.1) {
@@ -77,7 +76,7 @@ public class Converter {
 		}
 
 		String colours = "";
-		colours  = String.format(TEMPLATE_TIME, PERCENTAGE_10, "  0-10");
+		colours = String.format(TEMPLATE_TIME, PERCENTAGE_10, "  0-10");
 		colours += String.format(TEMPLATE_TIME, PERCENTAGE_20, " 11-20");
 		colours += String.format(TEMPLATE_TIME, PERCENTAGE_30, " 21-30");
 		colours += String.format(TEMPLATE_TIME, PERCENTAGE_40, " 31-40");
@@ -98,52 +97,49 @@ public class Converter {
 		return String.format(TEMPLATE_UML, methods, legend);
 	}
 
-    public static List<MethodCall> ParseFile(String inputFileName) throws IOException {
-    	Path inputFile = Paths.get(inputFileName);
-    	List<String> rawCalls = Files.readAllLines(inputFile, StandardCharsets.UTF_8);
-    	List<MethodCall> methodCalls = new ArrayList<MethodCall>();
-    	
-    	for(String rawCall: rawCalls) {
-    		//TestClass,testMethod1,>,1386174847530
-    		String[] callData = rawCall.split(",");
-    		String className = callData[0].replace('/', '.');
-    		
-    		switch (callData[2])
-    		{
-	    		case ">" :
-	    		{
-	    			String calledFrom = null;
-	    			for(int i = methodCalls.size()-1; i >= 0; i--) {
-	    				MethodCall j = methodCalls.get(i);
-	    				if (j.endId < 0) {
-	    					calledFrom = j.getExicutingClass();
-	    					break;
-	    				}
-	    			}
-	    			
-	    			MethodCall newCall  = new MethodCall(callData[1], calledFrom, className);
-	    			newCall.startId = MethodCall.getId();
-	    			newCall.startTime = Long.parseLong(callData[3]);
-	        		methodCalls.add(newCall);
-	    			break;
-	    		}
-	    		case "<" :
-	    		{
-	    			for(int i = methodCalls.size()-1; i >= 0; i--) {
-	    				MethodCall j = methodCalls.get(i);
-	    				if (j.endId < 0 && j.getMethodName().equals(callData[1]) && j.getExicutingClass().endsWith(className)) {
-	    					j.endId = MethodCall.getId();
-	    					j.endTime = Long.parseLong(callData[3]);
-	    					j.duration = j.endTime - j.startTime;
-	    					break;
-	    				}
-	    			}
-	    			break;
-	    		}
-    		}		
-    		
-    	}
-    	
+	public static List<MethodCall> parseFile(String inputFileName) throws IOException {
+		Path inputFile = Paths.get(inputFileName);
+		List<String> rawCalls = Files.readAllLines(inputFile, StandardCharsets.UTF_8);
+		List<MethodCall> methodCalls = new ArrayList<MethodCall>();
+
+		for (String rawCall : rawCalls) {
+
+			String[] callData = rawCall.split(",");
+			String className = callData[0].replace('/', '.');
+
+			switch (callData[2]) {
+			case ">": {
+				String calledFrom = null;
+				for (int i = methodCalls.size() - 1; i >= 0; i--) {
+					MethodCall j = methodCalls.get(i);
+					if (j.endId < 0) {
+						calledFrom = j.getExicutingClass();
+						break;
+					}
+				}
+
+				MethodCall newCall = new MethodCall(callData[1], calledFrom, className);
+				newCall.startId = MethodCall.getId();
+				newCall.startTime = Long.parseLong(callData[3]);
+				methodCalls.add(newCall);
+				break;
+			}
+			case "<": {
+				for (int i = methodCalls.size() - 1; i >= 0; i--) {
+					MethodCall j = methodCalls.get(i);
+					if (j.endId < 0 && j.getMethodName().equals(callData[1]) && j.getExicutingClass().endsWith(className)) {
+						j.endId = MethodCall.getId();
+						j.endTime = Long.parseLong(callData[3]);
+						j.duration = j.endTime - j.startTime;
+						break;
+					}
+				}
+				break;
+			}
+			}
+
+		}
+
 		return methodCalls;
 	}
 }

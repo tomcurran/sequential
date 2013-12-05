@@ -1,8 +1,10 @@
 package io;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Scanner;
 import java.util.jar.JarEntry;
@@ -15,28 +17,24 @@ public class ClassReader {
 		return MainClassPath(manifest);
 	}
 
-	public static void UnpackJar(String jarFile, String destDir)
-			throws IOException {
+	public static void UnpackJar(String jarFile, String destDir) throws IOException {
 		JarFile jar = new JarFile(jarFile);
 		Enumeration<JarEntry> es = jar.entries();
 		while (es.hasMoreElements()) {
-			java.util.jar.JarEntry file = (java.util.jar.JarEntry) es
-					.nextElement();
-			java.io.File outFile = new java.io.File(destDir
-					+ java.io.File.separator + file.getName());
+			JarEntry file = (JarEntry) es.nextElement();
+			File outFile = new File(destDir + File.separator + file.getName());
 
 			if (!outFile.exists()) {
 				outFile.getParentFile().mkdirs();
-				outFile = new java.io.File(destDir, file.getName());
+				outFile = new File(destDir, file.getName());
 			}
 
 			if (file.isDirectory()) {
 				continue;
 			}
 
-			java.io.InputStream is = jar.getInputStream(file); // get the input
-																// stream
-			java.io.FileOutputStream fos = new java.io.FileOutputStream(outFile);
+			InputStream is = jar.getInputStream(file); // get the input stream
+			FileOutputStream fos = new FileOutputStream(outFile);
 
 			while (is.available() > 0) { // write contents of 'is' to 'fos'
 				fos.write(is.read());
@@ -57,6 +55,7 @@ public class ClassReader {
 			public boolean accept(File dir, String name) {
 				return name.equals("META-INF") || name.equals("MANIFEST.MF");
 			}
+
 		});
 
 		if (manifest.length == 0) {
@@ -81,7 +80,6 @@ public class ClassReader {
 						if (line.next().equals("Main-Class")) {
 							String value = line.next().trim();
 							line.close();
-
 							return value;
 						}
 					}
@@ -89,11 +87,10 @@ public class ClassReader {
 					line.close();
 				}
 			}
-
 			throw new Exception("No Main-Class defined in manifest.mf");
-			
 		} finally {
 			scanner.close();
 		}
 	}
+
 }
