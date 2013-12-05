@@ -28,7 +28,7 @@ public class Converter {
 		final String TEMPLATE_UML = "@startuml\nactor User\n%s%s@enduml\n";
 		final String TEMPLATE_OBJECT = "%s";
 		final String TEMPLATE_METHOD_START = "%1$s -> %2$s: %3$s()\nactivate %2$s #%4$s\n";
-		final String TEMPLATE_METHOD_END = "%2$s --> %1$s: \ndeactivate %2$s\n";
+		final String TEMPLATE_METHOD_END = "%2$s --> %1$s: %3$ss \ndeactivate %2$s\n";
 //		private static final String TEMPLATE_METHOD_END_LENGTH = "||$3$s||\n" + TEMPLATE_METHOD_END;
 		final String TEMPLATE_LEGEND = "legend\n<size:24><b>Time Executing</b></size>\n%s\nendlegend\n";
 		final String TEMPLATE_TIME = "<size:18>%2$s%% <back:%1$s><color:%1$s><b>################</b></color></back></size>\n";
@@ -44,7 +44,9 @@ public class Converter {
 			String name = String.format(TEMPLATE_OBJECT, m.getExicutingClass());
 			String name2 = m.getInvokingClass() != null ? String.format(TEMPLATE_OBJECT, m.getInvokingClass()) : "User";
 			String colour;
-			double timePercentage = (double) m.getDuration() / totalDuration;
+			long duration = m.getDuration();
+			double durationSeconds = (double)duration / 1000000000.0;
+			double timePercentage = (double) duration / totalDuration;
 
 			if (timePercentage <= 0.1) {
 				colour = PERCENTAGE_10;
@@ -71,19 +73,19 @@ public class Converter {
 			}
 
 			timeline.put(m.getStartId(), String.format(TEMPLATE_METHOD_START, name2, name, m.getMethodName(), colour));
-			timeline.put(m.getEndId(), String.format(TEMPLATE_METHOD_END, name2, name));
+			timeline.put(m.getEndId(), String.format(TEMPLATE_METHOD_END, name2, name, durationSeconds));
 		}
 
 		String colours = "";
-		colours  = String.format(TEMPLATE_TIME, PERCENTAGE_10, " 0-10");
-		colours += String.format(TEMPLATE_TIME, PERCENTAGE_20, "11-20");
-		colours += String.format(TEMPLATE_TIME, PERCENTAGE_30, "21-30");
-		colours += String.format(TEMPLATE_TIME, PERCENTAGE_40, "31-40");
-		colours += String.format(TEMPLATE_TIME, PERCENTAGE_50, "41-50");
-		colours += String.format(TEMPLATE_TIME, PERCENTAGE_60, "51-60");
-		colours += String.format(TEMPLATE_TIME, PERCENTAGE_70, "61-70");
-		colours += String.format(TEMPLATE_TIME, PERCENTAGE_80, "71-80");
-		colours += String.format(TEMPLATE_TIME, PERCENTAGE_90, "81-90");
+		colours  = String.format(TEMPLATE_TIME, PERCENTAGE_10, "  0-10");
+		colours += String.format(TEMPLATE_TIME, PERCENTAGE_20, " 11-20");
+		colours += String.format(TEMPLATE_TIME, PERCENTAGE_30, " 21-30");
+		colours += String.format(TEMPLATE_TIME, PERCENTAGE_40, " 31-40");
+		colours += String.format(TEMPLATE_TIME, PERCENTAGE_50, " 41-50");
+		colours += String.format(TEMPLATE_TIME, PERCENTAGE_60, " 51-60");
+		colours += String.format(TEMPLATE_TIME, PERCENTAGE_70, " 61-70");
+		colours += String.format(TEMPLATE_TIME, PERCENTAGE_80, " 71-80");
+		colours += String.format(TEMPLATE_TIME, PERCENTAGE_90, " 81-90");
 		colours += String.format(TEMPLATE_TIME, PERCENTAGE_100, "91-100");
 
 		String legend = String.format(TEMPLATE_LEGEND, colours);
