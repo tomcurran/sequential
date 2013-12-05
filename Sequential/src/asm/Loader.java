@@ -11,7 +11,7 @@ import org.objectweb.asm.ClassWriter;
 
 public class Loader extends ClassLoader {
 
-	private static final String BIN_ADAPT = "temp"+ File.separator + "bin-adapt";
+	private static final String BIN_ADAPT = model.Settings.workingDir + File.separator + "bin-adapt";
 
 	@Override
 	protected Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
