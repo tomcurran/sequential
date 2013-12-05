@@ -1,7 +1,6 @@
 package model;
 
 import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.AdviceAdapter;
@@ -28,16 +27,6 @@ public class AddTimerAdapter extends ClassVisitor {
 			mv = new AddTimerMethodAdapter(access, name, desc, mv);
 		}
 		return mv;
-	}
-
-	public void visitEnd() {
-		if (!isInterface) {
-			FieldVisitor fv = cv.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "timer", "J", null, null);
-			if (fv != null) {
-				fv.visitEnd();
-			}
-			cv.visitEnd();
-		}
 	}
 
 	class AddTimerMethodAdapter extends AdviceAdapter {
