@@ -1,4 +1,4 @@
-package model;
+package asm;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -41,13 +41,13 @@ public class AddTimerAdapter extends ClassVisitor {
 		protected void onMethodEnter() {
 			mv.visitLdcInsn(owner);
             mv.visitLdcInsn(this.methodName);
-            mv.visitMethodInsn(INVOKESTATIC, "model/Timer", "start", "(Ljava/lang/String;Ljava/lang/String;)V");
+            mv.visitMethodInsn(INVOKESTATIC, "asm/Timer", "start", "(Ljava/lang/String;Ljava/lang/String;)V");
 		}
 
 		protected void onMethodExit(int opcode) {
 			mv.visitLdcInsn(owner);
             mv.visitLdcInsn(this.methodName);
-            mv.visitMethodInsn(INVOKESTATIC, "model/Timer", "end", "(Ljava/lang/String;Ljava/lang/String;)V");
+            mv.visitMethodInsn(INVOKESTATIC, "asm/Timer", "end", "(Ljava/lang/String;Ljava/lang/String;)V");
 		}
 
 		public void visitMaxs(int maxStack, int maxLocals) {

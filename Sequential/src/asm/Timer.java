@@ -1,4 +1,4 @@
-package model;
+package asm;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

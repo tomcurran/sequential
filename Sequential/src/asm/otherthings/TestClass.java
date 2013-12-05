@@ -1,37 +1,31 @@
-package model.test;
+package asm.otherthings;
 
-import model.Timer;
-
-public class TestClassAdapted {
+public class TestClass {
 
 	private String testField;
 
-	public TestClassAdapted() {
+	public TestClass() {
 		this.testField = "testFieldString";
 	}
 
 	public void testMethod1() {
-		Timer.start("TestClass", "testMethod1");
 
 		// actual method start
 		System.out.println("testMethod1 excuting...");
 		// actual method end
 
-		Timer.end("TestClass", "testMethod1");
 	}
 
 	public void testMethod2() {
-		Timer.start("TestClass", "testMethod2");
 
 		// actual method start
 		System.out.println("testMethod2 excuting..." + this.testField);
 		// actual method end
 
-		Timer.end("TestClass", "testMethod2");
 	}
 
 	public static void main(String[] args) {
-		TestClassAdapted tc = new TestClassAdapted();
+		TestClass tc = new TestClass();
 		tc.testMethod1();
 		tc.testMethod2();
 	}

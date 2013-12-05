@@ -1,11 +1,11 @@
 package main;
 
+import io.ClassReader;
+
 import java.io.File;
 import java.io.IOException;
 
-import model.Loader;
-import view.PlantUMLTest;
-import classReader.ClassReader;
+import asm.Loader;
 
 public class Main {
 
@@ -13,7 +13,7 @@ public class Main {
 		String pathToJar = args[0];
 		String outputPath = args[1];
 		String workingDir = "temp";
-		String interFile =  workingDir + File.pathSeparator + "inter.txt";
+		String interFile =  workingDir + File.separator + "inter.txt";
 		
 		try {
 			ClassReader.UnpackJar(pathToJar, workingDir);
@@ -23,7 +23,7 @@ public class Main {
 	 		System.arraycopy(args, 1, applicationArgs, 0, applicationArgs.length);
 	 		
 			Loader.RunAnalysis(mainClassName, interFile, applicationArgs);
-			PlantUMLTest.WriteSVG(interFile, outputPath);
+			io.Output.WriteSVG(interFile, outputPath);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

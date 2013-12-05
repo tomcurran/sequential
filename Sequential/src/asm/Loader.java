@@ -1,4 +1,4 @@
-package model;
+package asm;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,11 +11,11 @@ import org.objectweb.asm.ClassWriter;
 
 public class Loader extends ClassLoader {
 
-	private static final String BIN_ADAPT = "bin-adapt";
+	private static final String BIN_ADAPT = "temp"+ File.separator + "bin-adapt";
 
 	@Override
 	protected Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
-		if (name.startsWith("java.") || name.startsWith("javax.") || name.equals("model.Timer")) {
+		if (name.startsWith("java.") || name.startsWith("javax.") || name.equals("asm.Timer")) {
 			return super.loadClass(name, resolve);
 		}
 
