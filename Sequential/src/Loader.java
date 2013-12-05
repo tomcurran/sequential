@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 
 import model.AddTimerAdapter;
+import model.Timer;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -61,5 +62,6 @@ public class Loader extends ClassLoader {
 		String[] applicationArgs = new String[args.length - 1];
 		System.arraycopy(args, 1, applicationArgs, 0, applicationArgs.length);
 		m.invoke(null, new Object[] { applicationArgs });
+		Timer.saveToFile();
 	}
 }
