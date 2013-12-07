@@ -24,7 +24,7 @@ public class Loader extends ClassLoader {
 			ClassReader cr = new ClassReader(is);
 			ClassWriter cw = new ClassWriter(0);
 			ClassVisitor cv = new AddTimerAdapter(cw);
-			cr.accept(cv, 0);
+			cr.accept(cv, ClassReader.EXPAND_FRAMES);
 			b = cw.toByteArray();
 		} catch (Exception e) {
 			throw new ClassNotFoundException(name, e);
