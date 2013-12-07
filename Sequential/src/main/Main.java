@@ -10,7 +10,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		String pathToJar = args[0];
-		String interFile = Settings.WORKING_DIRECTORY + File.separator + "inter.txt";
+		String interFile = Settings.WORKING_DIRECTORY + File.separator + "methodcalls.cvs";
 		String[] applicationArgs = new String[args.length - 1];
 		System.arraycopy(args, 1, applicationArgs, 0, applicationArgs.length);
 
