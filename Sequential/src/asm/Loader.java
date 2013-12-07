@@ -1,7 +1,6 @@
 package asm;
 
 import java.io.InputStream;
-import java.lang.reflect.Method;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -36,11 +35,4 @@ public class Loader extends ClassLoader {
 		return defineClass(name, b, 0, b.length);
 	}
 
-	public static void runAnalysis(final String className, final String outputFile, final String applicationArgs[]) throws Exception {
-		ClassLoader loader = new Loader();
-		Class<?> c = loader.loadClass(className);
-		Method m = c.getMethod("main", new Class<?>[] { String[].class });
-		m.invoke(null, new Object[] { applicationArgs });
-		Timer.saveToFile(outputFile);
-	}
 }
