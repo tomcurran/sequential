@@ -32,9 +32,26 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a name="sequential" class="anchor" href="#sequential"><span class="octicon octicon-link"></span></a>sequential</h1>
+<a name="sequential" class="anchor" href="#sequential"><span class="octicon octicon-link"></span></a>Sequential</h1>
 
-<p>Reverse engineer sequence diagrams</p>
+<p>Reverse engineer sequence diagrams from code</p>
+
+<h2>
+<a name="running" class="anchor" href="#running"><span class="octicon octicon-link"></span></a>Running</h2>
+
+<h3>
+<a name="in-eclipse" class="anchor" href="#in-eclipse"><span class="octicon octicon-link"></span></a>In Eclipse</h3>
+
+<p>Run com.smeedaviation.sequential.main.Main and provide it a JAR to analysis as its first argument. Any subsequent arguments will be piped into the JAR that is being analysised. Before running the program create a folder called "temp" in the Sequential project and add it to the build path.</p>
+
+<h3>
+<a name="command-line" class="anchor" href="#command-line"><span class="octicon octicon-link"></span></a>Command Line</h3>
+
+<blockquote>
+<p>java -cp "temp;sequential.jar" com.smeedaviation.sequential.main.Main [jar_to_analysis.jar]</p>
+</blockquote>
+
+<p>Before running the program create a folder called "temp" in the same directory as the sequential JAR</p>
       </section>
     </div>
 
