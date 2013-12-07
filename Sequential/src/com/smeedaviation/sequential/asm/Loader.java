@@ -1,4 +1,4 @@
-package asm;
+package com.smeedaviation.sequential.asm;
 
 import java.io.InputStream;
 
@@ -6,12 +6,13 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 
+import asm.AddTimerAdapter;
+
 public class Loader extends ClassLoader {
 
 	@Override
 	protected Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
-		if (name.startsWith("java.") || name.startsWith("javax.")
-				|| name.startsWith("asm.") || name.startsWith("io.") || name.startsWith("main.") || name.startsWith("model.")) {
+		if (name.startsWith("java.") || name.startsWith("javax.") || name.startsWith("com.smeedaviation.sequential.")) {
 			return super.loadClass(name, resolve);
 		}
 

@@ -1,4 +1,4 @@
-package io;
+package com.smeedaviation.sequential.io;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -8,8 +8,9 @@ import java.util.List;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
-import model.Converter;
-import model.MethodCall;
+
+import com.smeedaviation.sequential.model.Converter;
+import com.smeedaviation.sequential.model.MethodCall;
 
 public class Output {
 

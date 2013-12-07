@@ -1,6 +1,6 @@
-package asm.asmifier;
+package com.smeedaviation.sequential.asm.asmifier;
 
-import asm.Timer;
+import com.smeedaviation.sequential.asm.Timer;
 
 public class TestClassAdapted {
 

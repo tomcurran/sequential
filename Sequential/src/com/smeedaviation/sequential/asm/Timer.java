@@ -1,4 +1,4 @@
-package asm;
+package com.smeedaviation.sequential.asm;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

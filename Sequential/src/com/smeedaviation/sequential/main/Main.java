@@ -1,13 +1,12 @@
-package main;
-
-import io.ClassReader;
-import io.Output;
+package com.smeedaviation.sequential.main;
 
 import java.io.File;
 import java.lang.reflect.Method;
 
-import asm.Loader;
-import asm.Timer;
+import com.smeedaviation.sequential.asm.Loader;
+import com.smeedaviation.sequential.asm.Timer;
+import com.smeedaviation.sequential.io.ClassReader;
+import com.smeedaviation.sequential.io.Output;
 
 public class Main {
 

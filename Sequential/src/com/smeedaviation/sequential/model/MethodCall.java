@@ -1,4 +1,4 @@
-package model;
+package com.smeedaviation.sequential.model;
 
 public class MethodCall {
 

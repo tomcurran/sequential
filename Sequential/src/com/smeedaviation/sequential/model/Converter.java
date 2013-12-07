@@ -1,4 +1,4 @@
-package model;
+package com.smeedaviation.sequential.model;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

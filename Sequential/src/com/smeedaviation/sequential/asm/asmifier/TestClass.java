@@ -1,4 +1,5 @@
-package asm.asmifier;
+package com.smeedaviation.sequential.asm.asmifier;
+
 
 public class TestClass {
 
