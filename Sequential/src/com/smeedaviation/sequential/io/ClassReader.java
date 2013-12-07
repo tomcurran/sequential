@@ -73,6 +73,7 @@ public class ClassReader {
 		Scanner scanner = new Scanner(manifest);
 		try {
 			while (scanner.hasNextLine()) {
+				@SuppressWarnings("resource")
 				Scanner line = new Scanner(scanner.nextLine());
 				line = line.useDelimiter(":");
 				try {
