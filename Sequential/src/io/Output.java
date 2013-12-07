@@ -13,7 +13,7 @@ import model.MethodCall;
 
 public class Output {
 
-	public static void WriteSVG(String input, String output) throws Exception {
+	public static void writeSVG(String input, String output) throws Exception {
 		List<MethodCall> methodCalls = Converter.parseFile(input);
 		String data = Converter.toPlantUML(methodCalls);
 
@@ -25,7 +25,9 @@ public class Output {
 		final String svg = new String(os.toByteArray());
 
 		File outputFile = new File(output);
-		outputFile.getParentFile().mkdirs();
+		outputFile.createNewFile();
+		outputFile.getParentFile();
+		outputFile.mkdirs();
 
 		PrintWriter writer = new PrintWriter(outputFile.getPath(), "UTF-8");
 		writer.println(svg);
