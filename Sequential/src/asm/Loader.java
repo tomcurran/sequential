@@ -1,7 +1,5 @@
 package asm;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 import java.io.InputStream;
 import java.lang.reflect.Method;
 
@@ -11,11 +9,10 @@ import org.objectweb.asm.ClassWriter;
 
 public class Loader extends ClassLoader {
 
-	private static final String BIN_ADAPT = model.Settings.WORKING_DIRECTORY + File.separator + "bin-adapt";
-
 	@Override
 	protected Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
-		if (name.startsWith("java.") || name.startsWith("javax.") || name.equals("asm.Timer")) {
+		if (name.startsWith("java.") || name.startsWith("javax.")
+				|| name.startsWith("asm.") || name.startsWith("io.") || name.startsWith("main.") || name.startsWith("model.")) {
 			return super.loadClass(name, resolve);
 		}
 
@@ -35,27 +32,13 @@ public class Loader extends ClassLoader {
 			throw new ClassNotFoundException(name, e);
 		}
 
-		// optional: stores the adapted class on disk
-		try {
-			File f = new File(Loader.BIN_ADAPT + File.separator + resource);
-			f.getParentFile().mkdirs();
-			FileOutputStream fos = new FileOutputStream(f);
-			fos.write(b);
-			fos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		// returns the adapted class
 		return defineClass(name, b, 0, b.length);
 	}
 
-	public static void RunAnalysis(final String className, final String outputFile, final String applicationArgs[]) throws Exception {
-		// loads the application class (in args[0]) with an Adapt class loader
+	public static void runAnalysis(final String className, final String outputFile, final String applicationArgs[]) throws Exception {
 		ClassLoader loader = new Loader();
 		Class<?> c = loader.loadClass(className);
-		// calls the 'main' static method of this class with the
-		// application arguments (in args[1] ... args[n]) as parameter
 		Method m = c.getMethod("main", new Class<?>[] { String[].class });
 		m.invoke(null, new Object[] { applicationArgs });
 		Timer.saveToFile(outputFile);
