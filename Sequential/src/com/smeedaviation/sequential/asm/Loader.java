@@ -1,6 +1,9 @@
 package com.smeedaviation.sequential.asm;
 
+import java.io.File;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -32,6 +35,16 @@ public class Loader extends ClassLoader {
 
 		// returns the adapted class
 		return defineClass(name, b, 0, b.length);
+	}
+
+	@Override
+	protected URL findResource(String name) {
+		URL url = null;
+		try {
+			url = new URL("file:temp" + File.separator + name);
+		} catch (MalformedURLException e) {
+		}
+		return url;
 	}
 
 }
